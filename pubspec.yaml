@@ -8,8 +8,19 @@ environment:
   sdk: ^3.3.2
 
 dependencies:
+  nyxx: ^6.2.1
+  dotenv: ^4.2.0
+  json_annotation: ^4.7.0
+  intl: ^0.19.0
   noso_rest_api:
     git: https://github.com/Noso-Project/noso_rest_api.git
 
+
+assets:
+  - .env
+
+
 dev_dependencies:
   lints: ^3.0.0
+
+
