@@ -41,10 +41,10 @@ class ApiRequests {
     var response =
         await restApi.fetchPrice(SetPriceRequest(TimeRange.minute, 10));
     if (response.value != null && response.error == null) {
-      return response.value?.first.price ?? 0;
+      return response.value?.first.price ?? 0.0;
     }
 
-    return 0;
+    return 0.0;
   }
 
   getUpdateTime() {
