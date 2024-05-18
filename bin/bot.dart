@@ -1,15 +1,16 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dotenv/dotenv.dart';
 import 'package:noso_live_stats_discord_bot/api_requests.dart';
 import 'package:noso_live_stats_discord_bot/bot_handler.dart';
 import 'package:noso_live_stats_discord_bot/config.dart';
+import 'package:noso_live_stats_discord_bot/pen.dart';
 import 'package:noso_rest_api/api_service.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 
 final int botPriv = 3088;
+final int timeDelayHeadChannels = 5; //minutes
 
 Future<void> main(List<String> arguments) async {
   /// Init ENV
@@ -39,28 +40,18 @@ Future<void> main(List<String> arguments) async {
   /// Add client to bot handler
   botHandler.setClient(client);
 
+  print("initialization... please wait");
+  await Future.delayed(Duration(seconds: 10));
+
   /// First connection run
   botHandler.responseAllInfo();
+  print(Pen().greenText("Bot init success"));
 
   /// Timer Runner All info
-  Timer.periodic(Duration(minutes: 5), (Timer timer) async {
+  Timer.periodic(Duration(minutes: timeDelayHeadChannels), (Timer timer) async {
     botHandler.responseAllInfo();
 
-    print("Update all headers");
-  });
-
-  stopApp() {
-    stdout.write('\b\b  \b\b');
-    stdout.writeln('BOT is stopped!');
-    client.close();
-
-    exit(0);
-  }
-
-  runZoned(() {
-    ProcessSignal.sigint.watch().listen((_) async => stopApp());
-    if (!Platform.isWindows) {
-      ProcessSignal.sigterm.watch().listen((_) async => stopApp());
-    }
+    print(Pen().greenText(
+        "Information in channel headers is updated every $timeDelayHeadChannels minutes"));
   });
 }
