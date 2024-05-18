@@ -46,10 +46,14 @@ class Value<T> {
     }
 
     if (_type == TypeMessage.rewarDay) {
-      returnValue = "${Messages.rewardDay} ${double.parse(returnValue).toStringAsFixed(2)}N";
+      returnValue =
+          "${Messages.rewardDay} ${double.parse(returnValue).toStringAsFixed(2)}N";
     }
 
-    print("$_type  $returnValue");
+    if (_type == TypeMessage.block) {
+      returnValue = "${Messages.block} $returnValue";
+    }
+
     return returnValue;
   }
 }
@@ -61,5 +65,6 @@ enum TypeMessage {
   activeNodes,
   locked,
   marketcap,
-  rewarDay
+  rewarDay,
+  block
 }
