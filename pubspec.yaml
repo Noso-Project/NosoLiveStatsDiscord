@@ -1,0 +1,15 @@
+name: noso_live_stats_discord_bot
+description: Implementation of a discord bot for obtaining information about the project in the dart language
+version: 1.0.0
+repository: https://github.com/Noso-Project/NosoLiveStatsDiscordBot
+publish_to: none
+
+environment:
+  sdk: ^3.3.2
+
+dependencies:
+  noso_rest_api:
+    git: https://github.com/Noso-Project/noso_rest_api.git
+
+dev_dependencies:
+  lints: ^3.0.0
