@@ -65,14 +65,14 @@ class BotHandler {
     /// UPDATE REWARD DAY
     if (_infoNodeH != infoNode && isSendRequestDiscord) {
       await Future.delayed(Duration(seconds: 5));
-      await _updateInfo(_client, _config.marketCapChannel,
+      await _updateInfo(_client, _config.rewardDayChannel,
           Value<double>(rewardDay, TypeMessage.rewarDay));
     }
 
     /// UPDATE MARKETCAP
     if (currentPrice != currentPrice && isSendRequestDiscord) {
       await Future.delayed(Duration(seconds: 5));
-      await _updateInfo(_client, _config.rewardDayChannel,
+      await _updateInfo(_client, _config.marketCapChannel,
           Value<double>(marketcap, TypeMessage.marketcap));
     }
 
