@@ -70,7 +70,7 @@ class BotHandler {
     }
 
     /// UPDATE MARKETCAP
-    if (currentPrice != currentPrice && isSendRequestDiscord) {
+    if (isSendRequestDiscord) {
       await Future.delayed(Duration(seconds: 5));
       await _updateInfo(_client, _config.marketCapChannel,
           Value<double>(marketcap, TypeMessage.marketcap));
@@ -91,7 +91,7 @@ class BotHandler {
     }
 
     /// UPDATE ACTIVE NODES
-    if (infoNode != _infoNodeH && isSendRequestDiscord) {
+    if (isSendRequestDiscord) {
       await Future.delayed(Duration(seconds: 5));
       await _updateInfo(_client, _config.activeNodesChannel,
           Value<String>(infoNode[0], TypeMessage.activeNodes));

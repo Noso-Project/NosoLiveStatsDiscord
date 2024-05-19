@@ -33,7 +33,7 @@ Future<void> main(List<String> arguments) async {
     config.token ?? "",
     GatewayIntents(botPriv),
     options: GatewayClientOptions(
-        plugins: [Logging(logLevel: Level.INFO), cliIntegration, commands],
+        plugins: [Logging(logLevel: Level.ALL), cliIntegration, commands],
         channelCacheConfig: CacheConfig(maxSize: 0, shouldCache: (x) => false)),
   );
 
