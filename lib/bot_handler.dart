@@ -5,7 +5,6 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 
 import 'api_requests.dart';
-import 'chat_comands.dart';
 
 class BotHandler {
   double _currentPriceH = 0;
@@ -18,7 +17,6 @@ class BotHandler {
   final ApiRequests _api;
   late NyxxGateway _client;
   final Config _config;
-  final ChatCommands _chatCommands = ChatCommands();
 
   BotHandler(this._api, this._config);
 
@@ -28,10 +26,10 @@ class BotHandler {
 
   getStatusCommand() {
     return ChatCommand(
-      _chatCommands.status[0],
-      _chatCommands.status[1],
+        "status",
+        "Get latest coin information",
       id(
-        _chatCommands.status[0],
+        "status",
         (ChatContext context) async {
           try {
             var response = _technicalStop;
@@ -46,14 +44,13 @@ class BotHandler {
                   '${Value<double>(_currentPriceH, TypeMessage.price).getValue()}\n'
                   '${Value<String>(_api.getUpdateTime(), TypeMessage.lastUpdate).getValue()}\n';
             }
-            var ss = await context.respond(MessageBuilder(content: response));
-            ss.id;
+            await context.respond(MessageBuilder(content: response));
           } catch (e) {
             print(Pen().red("Exception: $e"));
             context.respond(MessageBuilder(content: _technicalStop));
           }
         },
-      ),
+      )
     );
   }
 
