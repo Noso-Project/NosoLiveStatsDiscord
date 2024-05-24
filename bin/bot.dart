@@ -27,13 +27,14 @@ Future<void> main(List<String> arguments) async {
 
   /// Init chat commands
   final commands = CommandsPlugin(prefix: mentionOr((_) => '!'));
-  commands.addCommand(botHandler.getStatusCommand());
+  commands.addCommand(botHandler.getStatusCommand()); // chat command /status
+  commands.addCommand(botHandler.getRewardMN()); // chat command /rewardmn
 
   final client = await Nyxx.connectGateway(
     config.token ?? "",
     GatewayIntents(botPriv),
     options: GatewayClientOptions(
-        plugins: [Logging(logLevel: Level.INFO), cliIntegration, commands],
+        plugins: [Logging(logLevel: Level.ALL), cliIntegration, commands],
         channelCacheConfig: CacheConfig(maxSize: 0, shouldCache: (x) => false)),
   );
 
