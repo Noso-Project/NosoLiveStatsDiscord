@@ -54,6 +54,20 @@ class Value<T> {
       returnValue = "${Messages.block} $returnValue";
     }
 
+    if (_type == TypeMessage.rewardMonth) {
+      returnValue =
+          "${Messages.rewardMonth} ${double.parse(returnValue).toStringAsFixed(2)}N";
+    }
+
+    if (_type == TypeMessage.rewardWeek) {
+      returnValue =
+          "${Messages.rewardWeek} ${double.parse(returnValue).toStringAsFixed(2)}N";
+    }
+
+    if (_type == TypeMessage.halving) {
+      returnValue = "${Messages.daysHalving} $returnValue";
+    }
+
     return returnValue;
   }
 }
@@ -66,5 +80,8 @@ enum TypeMessage {
   locked,
   marketcap,
   rewarDay,
-  block
+  block,
+  halving,
+  rewardWeek,
+  rewardMonth,
 }

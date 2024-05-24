@@ -15,8 +15,7 @@ dependencies:
   noso_rest_api:
     git: https://github.com/Noso-Project/noso_rest_api.git
   ansicolor: ^2.0.2
-
-
+  noso_dart: 1.2.4
 assets:
   - .env
 

@@ -1,3 +1,4 @@
+import 'package:noso_dart/models/halving.dart';
 import 'package:noso_live_stats_discord_bot/config.dart';
 import 'package:noso_live_stats_discord_bot/pen.dart';
 import 'package:noso_live_stats_discord_bot/values.dart';
@@ -35,14 +36,38 @@ class BotHandler {
               var response = _technicalStop;
               if (_supplyH != 0 && _lockedH != 0) {
                 response = 'NOSO Status Update 📊'
-                    '🧱${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
-                    '🪙${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
-                    '🔒${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
-                    '💰${Value<double>((_currentPriceH * _supplyH), TypeMessage.marketcap).getValue()}\n'
-                    '🖥️${Value<String>(_infoNodeH[0], TypeMessage.activeNodes).getValue()}\n'
-                    '🎁${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
-                    '💵${Value<double>(_currentPriceH, TypeMessage.price).getValue()}\n'
-                    '⏰${Value<String>(_api.getUpdateTime(), TypeMessage.lastUpdate).getValue()}\n';
+                    '🧱 ${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
+                    '🪙 ${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
+                    '🔒 ${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
+                    '💰 ${Value<double>((_currentPriceH * _supplyH), TypeMessage.marketcap).getValue()}\n'
+                    '🖥️ ${Value<String>(_infoNodeH[0], TypeMessage.activeNodes).getValue()}\n'
+                    '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
+                    '💵 ${Value<double>(_currentPriceH, TypeMessage.price).getValue()}\n'
+                    '⏰ ${Value<String>(_api.getUpdateTime(), TypeMessage.lastUpdate).getValue()}\n';
+              }
+              await context.respond(MessageBuilder(content: response));
+            } catch (e) {
+              print(Pen().red("Exception: $e"));
+              context.respond(MessageBuilder(content: _technicalStop));
+            }
+          },
+        ));
+  }
+
+  getRewardMN() {
+    return ChatCommand(
+        "rewardmn",
+        "Get approximate reward for the node's work",
+        id(
+          "rewardmn",
+          (ChatContext context) async {
+            try {
+              var response = _technicalStop;
+              if (_supplyH != 0 && _lockedH != 0) {
+                response = '💰 Reward for masternode:'
+                    '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
+                    '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 1008), TypeMessage.rewardWeek).getValue()}\n'
+                    '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 4320), TypeMessage.rewardMonth).getValue()}\n';
               }
               await context.respond(MessageBuilder(content: response));
             } catch (e) {
@@ -60,6 +85,7 @@ class BotHandler {
     var locked = await _api.getLockedNoso();
     var marketcap = currentPrice * supply;
     var rewardDay = double.parse(infoNode[1]) * 144;
+    var halvingDays = Halving().getHalvingTimer(int.parse(infoNode[2])).days;
 
     /// UPDATE REWARD DAY
     if (_infoNodeH != infoNode && isSendRequestDiscord) {
@@ -101,6 +127,14 @@ class BotHandler {
       await Future.delayed(Duration(seconds: 5));
       await _updateInfo(_client, _config.currentPriceChannel,
           Value<double>(currentPrice, TypeMessage.price));
+    }
+
+    /// UPDATE HALVING
+    if ((int.parse(infoNode[2]) - int.parse(_infoNodeH[2])) >= 50 &&
+        isSendRequestDiscord) {
+      await Future.delayed(Duration(seconds: 5));
+      await _updateInfo(_client, _config.halvingChanel,
+          Value<int>(halvingDays, TypeMessage.halving));
     }
 
     /// LAST UPDATE

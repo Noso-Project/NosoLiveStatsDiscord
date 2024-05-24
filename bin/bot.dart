@@ -27,7 +27,8 @@ Future<void> main(List<String> arguments) async {
 
   /// Init chat commands
   final commands = CommandsPlugin(prefix: mentionOr((_) => '!'));
-  commands.addCommand(botHandler.getStatusCommand());
+  commands.addCommand(botHandler.getStatusCommand()); // chat command /status
+  commands.addCommand(botHandler.getRewardMN()); // chat command /rewardmn
 
   final client = await Nyxx.connectGateway(
     config.token ?? "",
