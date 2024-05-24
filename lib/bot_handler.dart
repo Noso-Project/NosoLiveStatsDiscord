@@ -35,7 +35,7 @@ class BotHandler {
             try {
               var response = _technicalStop;
               if (_supplyH != 0 && _lockedH != 0) {
-                response = 'NOSO Status Update 📊'
+                response = 'NOSO Status Update 📊\n'
                     '🧱 ${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
                     '🪙 ${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
                     '🔒 ${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
@@ -64,7 +64,7 @@ class BotHandler {
             try {
               var response = _technicalStop;
               if (_supplyH != 0 && _lockedH != 0) {
-                response = '💰 Reward for masternode:'
+                response = '💰 Reward for masternode:\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 1008), TypeMessage.rewardWeek).getValue()}\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 4320), TypeMessage.rewardMonth).getValue()}\n';
@@ -86,6 +86,13 @@ class BotHandler {
     var marketcap = currentPrice * supply;
     var rewardDay = double.parse(infoNode[1]) * 144;
     var halvingDays = Halving().getHalvingTimer(int.parse(infoNode[2])).days;
+
+    /// UPDATE BLOCk
+    if (infoNode[2] != _infoNodeH[2] && isSendRequestDiscord) {
+      await Future.delayed(Duration(seconds: 5));
+      await _updateInfo(_client, _config.blockChanel,
+          Value<String>(infoNode[2], TypeMessage.block));
+    }
 
     /// UPDATE REWARD DAY
     if (_infoNodeH != infoNode && isSendRequestDiscord) {

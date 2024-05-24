@@ -10,6 +10,7 @@ class Config {
   final int marketCapChannel;
   final int rewardDayChannel;
   final int halvingChanel;
+  final int blockChanel;
 
   Config({
     required this.token,
@@ -21,6 +22,7 @@ class Config {
     required this.marketCapChannel,
     required this.rewardDayChannel,
     required this.halvingChanel,
+    required this.blockChanel,
   });
 
   factory Config.fromEnv(DotEnv env) {
@@ -34,6 +36,7 @@ class Config {
       marketCapChannel: int.parse(env['MARKETCAP_CHANNEL'] ?? "0"),
       rewardDayChannel: int.parse(env['REWARD_DAY_CHANNEL'] ?? "0"),
       halvingChanel: int.parse(env['HALVING_CHANEL'] ?? "0"),
+      blockChanel: int.parse(env['BLOCK_CHANEL'] ?? "0"),
     );
   }
 
@@ -73,6 +76,10 @@ class Config {
 
     if (halvingChanel == 0) {
       print('HALVING_CHANEL not found in the .env file');
+      return false;
+    }
+    if (blockChanel == 0) {
+      print('BLOCK_CHANEL not found in the .env file');
       return false;
     }
     return true;
