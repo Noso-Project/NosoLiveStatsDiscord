@@ -28,30 +28,29 @@ class BotHandler {
     return ChatCommand(
         "status",
         "Get latest coin information",
-      id(
-        "status",
-        (ChatContext context) async {
-          try {
-            var response = _technicalStop;
-            if (_supplyH != 0 && _lockedH != 0) {
-              response =
-                  '${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
-                  '${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
-                  '${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
-                  '${Value<double>((_currentPriceH * _supplyH), TypeMessage.marketcap).getValue()}\n'
-                  '${Value<String>(_infoNodeH[0], TypeMessage.activeNodes).getValue()}\n'
-                  '${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
-                  '${Value<double>(_currentPriceH, TypeMessage.price).getValue()}\n'
-                  '${Value<String>(_api.getUpdateTime(), TypeMessage.lastUpdate).getValue()}\n';
+        id(
+          "status",
+          (ChatContext context) async {
+            try {
+              var response = _technicalStop;
+              if (_supplyH != 0 && _lockedH != 0) {
+                response = 'NOSO Status Update 📊'
+                    '🧱${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
+                    '🪙${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
+                    '🔒${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
+                    '💰${Value<double>((_currentPriceH * _supplyH), TypeMessage.marketcap).getValue()}\n'
+                    '🖥️${Value<String>(_infoNodeH[0], TypeMessage.activeNodes).getValue()}\n'
+                    '🎁${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
+                    '💵${Value<double>(_currentPriceH, TypeMessage.price).getValue()}\n'
+                    '⏰${Value<String>(_api.getUpdateTime(), TypeMessage.lastUpdate).getValue()}\n';
+              }
+              await context.respond(MessageBuilder(content: response));
+            } catch (e) {
+              print(Pen().red("Exception: $e"));
+              context.respond(MessageBuilder(content: _technicalStop));
             }
-            await context.respond(MessageBuilder(content: response));
-          } catch (e) {
-            print(Pen().red("Exception: $e"));
-            context.respond(MessageBuilder(content: _technicalStop));
-          }
-        },
-      )
-    );
+          },
+        ));
   }
 
   responseAllInfo({bool isSendRequestDiscord = true}) async {
