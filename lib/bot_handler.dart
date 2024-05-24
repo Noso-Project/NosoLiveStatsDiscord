@@ -35,7 +35,7 @@ class BotHandler {
             try {
               var response = _technicalStop;
               if (_supplyH != 0 && _lockedH != 0) {
-                response = 'NOSO Status Update 📊\n'
+                response = '📊 **NOSO Status Update** \n\n'
                     '🧱 ${Value<String>(_infoNodeH[2], TypeMessage.block).getValue()}\n'
                     '🪙 ${Value<int>(_supplyH, TypeMessage.supply).getValue()}\n'
                     '🔒 ${Value<int>(_lockedH, TypeMessage.locked).getValue()}\n'
@@ -64,7 +64,7 @@ class BotHandler {
             try {
               var response = _technicalStop;
               if (_supplyH != 0 && _lockedH != 0) {
-                response = '💰 Reward for masternode:\n'
+                response = '💰 **Reward for masternode:**\n\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 144), TypeMessage.rewarDay).getValue()}\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 1008), TypeMessage.rewardWeek).getValue()}\n'
                     '🎁 ${Value<double>((double.parse(_infoNodeH[1]) * 4320), TypeMessage.rewardMonth).getValue()}\n';
